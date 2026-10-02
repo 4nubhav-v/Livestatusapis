@@ -1,8 +1,15 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 8080;
+const corsOptions = {
+  origin: "https://blogs.4nubhav.workers.dev",
+  credentials: "true",
+  optionsSucessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 function getUrl(customInfo) {
   return `http://ws.audioscrobbler.com/2.0/?method=user.get${customInfo}&user=lostglory_&api_key=${process.env.LASTFM_API_KEY}&format=json`;
@@ -17,7 +24,7 @@ async function fetchData(urlTopic, errorMessage) {
   } catch (error) {
     return {
       status: "404",
-   //   error: `${error}`,
+      //   error: `${error}`,
       message: `${errorMessage}`,
     };
   }
